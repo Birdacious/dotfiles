@@ -50,9 +50,22 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.wrap = false
 
-vim.wo.foldnestmax = 1
-vim.wo.foldmethod = "syntax"
+--vim.wo.foldnestmax = 1
+--vim.wo.foldmethod = "syntax"
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevelstart = 99
+
+-- Stop auto-comments when making new lines above/below existing comments
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = '*',
+  callback = function ()
+    vim.opt.formatoptions:remove({'c'})
+    vim.opt.formatoptions:remove({'o'})
+    vim.opt.formatoptions:remove({'r'})
+  end
+})
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-
+vim.keymap.set("i", "jj",    "<ESC>"  )
